@@ -1,0 +1,35 @@
+# Documentação e configuração do Claude Code (uso local, não versionar)
+CLAUDE.md
+CLAUDE.local.md
+.claude/
+tasks/
+docs/tasks/
+
+# Segredos e dados sensíveis
+.env
+.env.*
+!.env.example
+data/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+*.egg-info/
+
+# Bancos locais
+*.sqlite
+*.sqlite3
+*.db
+
+# Editor / SO
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

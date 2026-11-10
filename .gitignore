@@ -33,3 +33,7 @@ htmlcov/
 .idea/
 .DS_Store
 Thumbs.db
+
+# reels: intermediários
+reels/build/
+reels/out/

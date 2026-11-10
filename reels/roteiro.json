@@ -1,0 +1,67 @@
+{
+  "titulo": "FomentoRadar — reels de apresentação (protótipo ilustrativo)",
+  "duracao_alvo_s": 45,
+  "aviso": "Protótipo ilustrativo. Editais, instituições e empresa são fictícios.",
+  "voz": {
+    "provedor": "elevenlabs",
+    "genero": "masculino",
+    "modelo": "eleven_multilingual_v2",
+    "estilo": "founder falando com energia, ritmo de reels"
+  },
+  "segmentos": [
+    {
+      "id": "hook",
+      "texto": "Sua startup gastou três semanas num edital… pra descobrir que nem podia participar?",
+      "destaque": ["três semanas", "nem podia participar"],
+      "visual": "Pilha de páginas de edital caindo; carimbo vermelho INELEGÍVEL bate na tela."
+    },
+    {
+      "id": "dor",
+      "texto": "Oitenta páginas, anexos, retificação… e o prazo acabando.",
+      "destaque": ["Oitenta páginas", "prazo acabando"],
+      "visual": "PDF rolando rápido, contadores de páginas/anexos/retificações e contagem regressiva."
+    },
+    {
+      "id": "reveal",
+      "texto": "Esse é o FomentoRadar.",
+      "destaque": ["FomentoRadar"],
+      "visual": "Varredura de radar verde revela a marca."
+    },
+    {
+      "id": "perfil",
+      "texto": "Você cadastra o perfil da empresa uma vez.",
+      "destaque": ["uma vez"],
+      "visual": "Celular com o portal: formulário de perfil se preenchendo sozinho."
+    },
+    {
+      "id": "chamadas",
+      "texto": "O radar encontra as chamadas compatíveis, com prazo.",
+      "destaque": ["chamadas compatíveis"],
+      "visual": "Radar acha pontos, que viram cartões de chamadas com prazos."
+    },
+    {
+      "id": "requisitos",
+      "texto": "E cada requisito vem classificado: atendido, não atendido ou desconhecido, sempre com o trecho e a página do edital.",
+      "destaque": ["atendido", "não atendido", "desconhecido", "página do edital"],
+      "visual": "Mapa de requisitos com selos verde/vermelho/cinza; zoom na citação com página."
+    },
+    {
+      "id": "confianca",
+      "texto": "Sem evidência, ele não chuta: diz desconhecido.",
+      "destaque": ["não chuta", "desconhecido"],
+      "visual": "Selo cinza DESCONHECIDO em destaque."
+    },
+    {
+      "id": "lacunas",
+      "texto": "No fim, você vê o que falta, recebe o checklist e é avisado se o edital mudar.",
+      "destaque": ["o que falta", "checklist", "avisado"],
+      "visual": "Lacunas, checklist marcando itens e notificação de retificação."
+    },
+    {
+      "id": "cta",
+      "texto": "Triagem de edital em minutos, não em semanas. Startup ou aceleradora? Entra no nosso piloto.",
+      "destaque": ["minutos", "piloto"],
+      "visual": "Marca + 'Piloto aberto para startups e aceleradoras' + aviso de protótipo."
+    }
+  ]
+}

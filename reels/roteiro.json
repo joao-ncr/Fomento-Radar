@@ -5,19 +5,19 @@
   "voz": {
     "provedor": "elevenlabs",
     "genero": "masculino",
-    "modelo": "eleven_multilingual_v2",
+    "modelo": "VOZ=a: Chris/eleven_v3 · VOZ=b: Brian/eleven_turbo_v2_5",
     "estilo": "founder falando com energia, ritmo de reels"
   },
   "segmentos": [
     {
       "id": "hook",
-      "texto": "Sua startup gastou três semanas num edital… pra descobrir que nem podia participar?",
+      "texto": "Sua startup gastou três semanas num edital, pra descobrir que nem podia participar?",
       "destaque": ["três semanas", "nem podia participar"],
       "visual": "Pilha de páginas de edital caindo; carimbo vermelho INELEGÍVEL bate na tela."
     },
     {
       "id": "dor",
-      "texto": "Oitenta páginas, anexos, retificação… e o prazo acabando.",
+      "texto": "Oitenta páginas, anexos, retificação, e o prazo acabando.",
       "destaque": ["Oitenta páginas", "prazo acabando"],
       "visual": "PDF rolando rápido, contadores de páginas/anexos/retificações e contagem regressiva."
     },

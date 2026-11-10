@@ -17,12 +17,12 @@ if [ -f build/voz.mp3 ]; then
     [2:a]volume=0.32[m];
     [m][vsc]sidechaincompress=threshold=0.03:ratio=8:attack=15:release=300[md];
     [3:a]volume=0.55[fx];
-    [v][md][fx]amix=inputs=3:normalize=0:duration=longest,loudnorm=I=-14:TP=-1.5:LRA=11[a]" \
-    -map 0:v -map "[a]" -c:v copy -c:a aac -b:a 192k -shortest -movflags +faststart out/fomentoradar_reels.mp4
-  echo "vídeo final com narração: out/fomentoradar_reels.mp4"
+    [v][md][fx]amix=inputs=3:normalize=0:duration=longest,loudnorm=I=-14:TP=-1.5:LRA=11,alimiter=limit=0.84:level=false[a]" \
+    -map 0:v -map "[a]" -c:v copy -c:a aac -b:a 192k -shortest -movflags +faststart "out/fomentoradar_reels_opcao_${VOZ:-a}.mp4"
+  echo "vídeo final com narração: "out/fomentoradar_reels_opcao_${VOZ:-a}.mp4""
 else
   ffmpeg -y -loglevel error -i build/video.mp4 -i build/musica.wav -i build/sfx.wav -filter_complex "
-    [1:a]volume=0.5[m];[2:a]volume=0.6[fx];[m][fx]amix=inputs=2:normalize=0,loudnorm=I=-14:TP=-1.5:LRA=11[a]" \
+    [1:a]volume=0.5[m];[2:a]volume=0.6[fx];[m][fx]amix=inputs=2:normalize=0,loudnorm=I=-14:TP=-1.5:LRA=11,alimiter=limit=0.84:level=false[a]" \
     -map 0:v -map "[a]" -c:v copy -c:a aac -b:a 192k -shortest -movflags +faststart out/fomentoradar_reels_sem_voz.mp4
   echo "vídeo sem narração (prévia de ritmo): out/fomentoradar_reels_sem_voz.mp4"
 fi

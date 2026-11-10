@@ -36,10 +36,15 @@ Pré-requisitos: Python 3 com `numpy`, Node 22 com `playwright` (Chromium) e `ff
 
 ```bash
 cd reels
-./build.sh             # com narração, se api.elevenlabs.io estiver acessível com a chave
+VOZ=a ./build.sh       # com narração, se api.elevenlabs.io estiver acessível com a chave
 ./build.sh --estimate  # versão sem voz, para revisar ritmo e visual
 ```
 
-A chave da ElevenLabs **não** fica no código. Neste ambiente de nuvem, ela é cadastrada como *network secret* do ambiente (host `api.elevenlabs.io`, header `xi-api-key`) e o proxy a injeta nas requisições. Fora dele, exporte `ELEVEN_API_KEY`. A voz padrão é a "Liam" (masculina, energética); para trocar, use `ELEVEN_VOICE_ID`.
+A chave da ElevenLabs **não** fica no código. Neste ambiente de nuvem, ela é cadastrada como *network secret* do ambiente (host `api.elevenlabs.io`, header `xi-api-key`) e o proxy a injeta nas requisições. Fora dele, exporte `ELEVEN_API_KEY`. Há duas predefinições de voz, escolhidas pela variável `VOZ`:
 
-Saída: `out/fomentoradar_reels.mp4` (com voz) ou `out/fomentoradar_reels_sem_voz.mp4`.
+- `VOZ=a` (padrão): **Chris** no modelo `eleven_v3`, o mais natural, acelerado 10% na edição sem alterar o tom.
+- `VOZ=b`: **Brian** no `eleven_turbo_v2_5`, com português forçado e velocidade 1,15.
+
+Vozes nativas brasileiras da biblioteca da ElevenLabs exigem plano pago via API. Num plano pago, basta passar `ELEVEN_VOICE_ID=<id>`.
+
+Saída: `out/fomentoradar_reels_opcao_a.mp4` / `_opcao_b.mp4` (com voz) ou `out/fomentoradar_reels_sem_voz.mp4`.

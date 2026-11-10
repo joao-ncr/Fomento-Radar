@@ -11,6 +11,7 @@ import base64
 import json
 import os
 import re
+import subprocess
 import sys
 import urllib.error
 import urllib.request
@@ -18,10 +19,18 @@ import urllib.request
 HERE = os.path.dirname(os.path.abspath(__file__))
 BUILD = os.path.join(HERE, "build")
 API = "https://api.elevenlabs.io/v1"
-MODEL = "eleven_multilingual_v2"
-# Voz masculina padrão; pode ser trocada via env ELEVEN_VOICE_ID.
-DEFAULT_VOICE = os.environ.get("ELEVEN_VOICE_ID", "TX3LPaxmHKxFdv7VOQHJ")  # "Liam": masculina, energética, estilo redes sociais
-FALLBACK_VOICE = "pNInz6obpgDQGcFmaJgB"  # "Adam", masculina, funciona em pt-BR no multilingual_v2
+# Predefinições de voz (env VOZ). Todas são vozes padrão da ElevenLabs, liberadas no plano gratuito
+# (vozes da biblioteca, inclusive as nativas brasileiras, exigem plano pago via API).
+#   tempo: aceleração aplicada depois (ffmpeg atempo, sem alterar o tom); os tempos são ajustados junto.
+PRESETS = {
+    "a": {"nome": "Chris (v3)", "voice": "iP95p4xoKVk53GoZ742B", "model": "eleven_v3",
+          "settings": {"stability": 0.5}, "tempo": 1.10},
+    "b": {"nome": "Brian (turbo v2.5, pt forçado)", "voice": "nPczCjzI2devNBz1zQrb", "model": "eleven_turbo_v2_5",
+          "settings": {"stability": 0.45, "similarity_boost": 0.8, "style": 0.3, "speed": 1.15}, "tempo": 1.0},
+}
+PRESET = PRESETS[os.environ.get("VOZ", "a")]
+if os.environ.get("ELEVEN_VOICE_ID"):
+    PRESET = {**PRESET, "voice": os.environ["ELEVEN_VOICE_ID"]}
 
 
 def load_script():
@@ -62,53 +71,22 @@ def req(method, path, body=None):
         return json.loads(resp.read())
 
 
-def pick_voice():
-    if DEFAULT_VOICE:
-        return DEFAULT_VOICE
-    try:
-        voices = req("GET", "/voices")["voices"]
-    except Exception:
-        return FALLBACK_VOICE
-    def score(v):
-        lab = {k: str(x).lower() for k, x in (v.get("labels") or {}).items()}
-        s = 0
-        if lab.get("gender") == "male":
-            s += 10
-        if "brazil" in lab.get("accent", "") or "portug" in lab.get("language", "") or lab.get("language") == "pt":
-            s += 5
-        if any(k in lab.get("description", "") + lab.get("use_case", "") for k in ("narrat", "conversational", "social")):
-            s += 2
-        return s
-    best = max(voices, key=score) if voices else None
-    return best["voice_id"] if best and score(best) >= 10 else FALLBACK_VOICE
-
-
 def synthesize(text):
-    voice = pick_voice()
-    body = {
-        "text": text,
-        "model_id": MODEL,
-        "language_code": "pt",
-        "voice_settings": {"stability": 0.38, "similarity_boost": 0.8, "style": 0.45, "use_speaker_boost": True, "speed": 1.08},
-    }
-    try:
-        out = req("POST", f"/text-to-speech/{voice}/with-timestamps?output_format=mp3_44100_128", body)
-    except urllib.error.HTTPError as e:
-        # language_code/speed não são aceitos por todos os modelos: tenta sem eles
-        if e.code in (400, 422):
-            body.pop("language_code", None)
-            body["voice_settings"].pop("speed", None)
-            out = req("POST", f"/text-to-speech/{voice}/with-timestamps?output_format=mp3_44100_128", body)
-        else:
-            raise
-    audio = base64.b64decode(out["audio_base64"])
-    with open(os.path.join(BUILD, "voz.mp3"), "wb") as f:
-        f.write(audio)
+    voice, model = PRESET["voice"], PRESET["model"]
+    body = {"text": text, "model_id": model, "language_code": "pt", "voice_settings": PRESET["settings"]}
+    out = req("POST", f"/text-to-speech/{voice}/with-timestamps?output_format=mp3_44100_128", body)
+    raw = os.path.join(BUILD, "voz_bruta.mp3")
+    with open(raw, "wb") as f:
+        f.write(base64.b64decode(out["audio_base64"]))
+    tempo = PRESET["tempo"]
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", raw, "-af", f"atempo={tempo}",
+                    "-c:a", "libmp3lame", "-b:a", "192k", os.path.join(BUILD, "voz.mp3")], check=True)
     al = out["alignment"]
-    starts, ends = al["character_start_times_seconds"], al["character_end_times_seconds"]
+    starts = [x / tempo for x in al["character_start_times_seconds"]]
+    ends = [x / tempo for x in al["character_end_times_seconds"]]
     if "".join(al["characters"]) != text:
         raise RuntimeError("alinhamento não bate com o texto enviado")
-    return voice, starts, ends
+    return PRESET["nome"], starts, ends
 
 
 def estimate(text):

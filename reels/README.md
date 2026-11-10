@@ -40,6 +40,6 @@ cd reels
 ./build.sh --estimate  # versão sem voz, para revisar ritmo e visual
 ```
 
-A chave da ElevenLabs **não** fica no código. Neste ambiente de nuvem, ela é cadastrada como *network secret* do ambiente (host `api.elevenlabs.io`, header `xi-api-key`) e o proxy a injeta nas requisições. Fora dele, exporte `ELEVEN_API_KEY`. Para escolher outra voz, use `ELEVEN_VOICE_ID`.
+A chave da ElevenLabs **não** fica no código. Neste ambiente de nuvem, ela é cadastrada como *network secret* do ambiente (host `api.elevenlabs.io`, header `xi-api-key`) e o proxy a injeta nas requisições. Fora dele, exporte `ELEVEN_API_KEY`. A voz padrão é a "Liam" (masculina, energética); para trocar, use `ELEVEN_VOICE_ID`.
 
 Saída: `out/fomentoradar_reels.mp4` (com voz) ou `out/fomentoradar_reels_sem_voz.mp4`.

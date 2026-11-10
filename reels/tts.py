@@ -20,7 +20,7 @@ BUILD = os.path.join(HERE, "build")
 API = "https://api.elevenlabs.io/v1"
 MODEL = "eleven_multilingual_v2"
 # Voz masculina padrão; pode ser trocada via env ELEVEN_VOICE_ID.
-DEFAULT_VOICE = os.environ.get("ELEVEN_VOICE_ID", "")
+DEFAULT_VOICE = os.environ.get("ELEVEN_VOICE_ID", "TX3LPaxmHKxFdv7VOQHJ")  # "Liam": masculina, energética, estilo redes sociais
 FALLBACK_VOICE = "pNInz6obpgDQGcFmaJgB"  # "Adam", masculina, funciona em pt-BR no multilingual_v2
 
 
